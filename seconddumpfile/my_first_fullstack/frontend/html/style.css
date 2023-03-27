@@ -1,0 +1,23 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#cities {
+  font-size: 1.25rem;
+}
+
+td {
+  padding: 3px 9px;
+}
+
+#back {
+  margin-top: 40px;
+}
+
+#button-edit {
+
+}
+
+#button-save {
+  display: none;
+}

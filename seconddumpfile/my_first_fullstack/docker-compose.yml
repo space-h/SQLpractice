@@ -1,0 +1,29 @@
+version: '3.1'
+services:
+  frontend-app:
+    build:
+      context: ./frontend
+    ports:
+      - '80:80'
+    volumes:
+      - './frontend/html:/usr/share/nginx/html'
+    restart: always
+  backend-app:
+    build: 
+      context: ./backend
+    ports:
+      - '5000:5000'
+    volumes:
+      - './backend:/opt/app'
+    restart: always
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: cities_password
+      MYSQL_DATABASE: cities_db
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
