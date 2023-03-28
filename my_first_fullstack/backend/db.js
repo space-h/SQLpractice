@@ -11,7 +11,6 @@ const pool = mysql.createPool({
 const fetchCities = async () => {
     try {
         const [rows, fields] = await pool.query('SELECT * FROM `cities`;')
-        console.log(rows);
         return rows;
         
     } catch (error) {
@@ -24,7 +23,8 @@ const fetchCities = async () => {
 const fetchCityById = async (id) => {
     try {
         const selectQuery = 'SELECT * FROM `cities` WHERE id=?;';
-        pool.query(selectQuery, id);
+        const result = await pool.query(selectQuery, id);
+        return result[0];
         
     } catch (error) {
         throw new Error(error);
@@ -32,6 +32,42 @@ const fetchCityById = async (id) => {
 
 };
 
+const createCity = async (city) => {
+    try {
+        const result = await pool.query('INSERT INTO `cities` SET ?', city);
+          return result[0];
+        
+    } catch (error) {
+        throw new Error(error);
+        
+    }
+};
+
+const deleteCityById = async (id) => {
+    try {
+        const deleteQuery = 'DELETE FROM `cities` WHERE id=?;';
+        const result = await pool.query(deleteQuery, id);
+        return result[0];
+        
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const updateCity = async (city) => {
+    try {
+        const updateQuery = 'UPDATE `cities`SET city = ?, country = ? WHERE id = ?;';
+        const result = await pool.query(updateQuery, [city.city, city.country, city.id]);
+         return result[0];
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 module.exports = {
-fetchCities
+createCity,
+deleteCityById,    
+fetchCities,
+fetchCityById,
+updateCity
 }
